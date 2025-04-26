@@ -119,13 +119,13 @@ export default function Login() {
         </form>
 
         <div className="mt-6 text-center">
-          <Link href="/">
-            <a className="text-blue-600 hover:underline">Retour à l'accueil</a>
+          <Link href="/" className="text-blue-600 hover:underline">
+            Retour à l'accueil
           </Link>
           <p className="text-gray-600">
             Vous n'avez pas de compte?{' '}
-            <Link href="/register">
-              <a className="text-blue-600 hover:underline">S'inscrire</a>
+            <Link href="/register" className="text-blue-600 hover:underline">
+              S'inscrire
             </Link>
           </p>
         </div>

@@ -39,10 +39,8 @@ const PatientSummary = ({ name, age, room, vitals, status }) => {
         </div>
         
         <div className="mt-4">
-          <Link href={`/patients/details?id=${name.split(',')[1].trim()}-${name.split(',')[0].trim()}`}>
-            <a className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-              Voir les détails →
-            </a>
+          <Link href={`/patients/details?id=${name.split(',')[1].trim()}-${name.split(',')[0].trim()}`} className="patient-link">
+            {name}
           </Link>
         </div>
       </div>

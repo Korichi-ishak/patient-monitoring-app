@@ -56,7 +56,7 @@ const RecentAlerts = () => {
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="px-6 py-4 border-b flex justify-between items-center">
         <h2 className="text-lg font-medium">Alertes récentes</h2>
-        <Link href="/alerts">
+        <Link href="/alerts" legacyBehavior>
           <a className="text-sm text-blue-600 hover:text-blue-800">Voir toutes les alertes</a>
         </Link>
       </div>

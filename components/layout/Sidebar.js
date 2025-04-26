@@ -30,18 +30,16 @@ const Sidebar = () => {
         <ul>
           {menuItems.map((item, index) => (
             <li key={index} className="mb-2 px-4">
-              <Link href={item.path}>
-                <a className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
+              <Link href={item.path} className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
                   isActive(item.path) 
                     ? 'bg-blue-700 text-white' 
                     : 'text-blue-100 hover:bg-blue-700 hover:text-white'
                 }`}>
-                  <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" 
+                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" 
                     xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                   </svg>
                   <span>{item.label}</span>
-                </a>
               </Link>
             </li>
           ))}

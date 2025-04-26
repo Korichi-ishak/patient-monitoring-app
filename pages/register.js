@@ -220,8 +220,8 @@ export default function Register() {
         <div className="mt-6 text-center">
           <p className="text-gray-600">
             Vous avez déjà un compte?{' '}
-            <Link href="/login">
-              <a className="text-blue-600 hover:underline">Se connecter</a>
+            <Link href="/login" className="text-blue-600 hover:underline">
+              Se connecter
             </Link>
           </p>
         </div>

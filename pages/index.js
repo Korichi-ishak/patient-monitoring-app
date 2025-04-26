@@ -18,15 +18,11 @@ export default function Home() {
             Plateforme de suivi en temps réel des patients pour les professionnels de santé
           </p>
           <div className="space-y-4">
-            <Link href="/login">
-              <a className="block w-full px-5 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
-                Connexion
-              </a>
+            <Link href="/login" className="block w-full px-5 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
+              Connexion
             </Link>
-            <Link href="/register">
-              <a className="block w-full px-5 py-3 text-blue-600 bg-white border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors mt-3">
-                Créer un compte
-              </a>
+            <Link href="/register" className="block w-full px-5 py-3 text-blue-600 bg-white border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors mt-3">
+              Créer un compte
             </Link>
           </div>
         </div>

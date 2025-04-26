@@ -76,7 +76,7 @@ const RecentMeasurements = () => {
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="px-6 py-4 border-b flex justify-between items-center">
         <h2 className="text-lg font-medium">Mesures récentes</h2>
-        <Link href="/measurements">
+        <Link href="/measurements" legacyBehavior>
           <a className="text-sm text-blue-600 hover:text-blue-800">Voir toutes les mesures</a>
         </Link>
       </div>
