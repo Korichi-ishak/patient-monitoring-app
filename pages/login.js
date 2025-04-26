@@ -70,6 +70,12 @@ export default function Login() {
           </div>
         )}
 
+        {router.query.message && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            {router.query.message}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
@@ -116,6 +122,12 @@ export default function Login() {
           <Link href="/">
             <a className="text-blue-600 hover:underline">Retour à l'accueil</a>
           </Link>
+          <p className="text-gray-600">
+            Vous n'avez pas de compte?{' '}
+            <Link href="/register">
+              <a className="text-blue-600 hover:underline">S'inscrire</a>
+            </Link>
+          </p>
         </div>
       </div>
     </div>

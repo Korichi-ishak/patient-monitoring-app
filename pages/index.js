@@ -23,6 +23,11 @@ export default function Home() {
                 Connexion
               </a>
             </Link>
+            <Link href="/register">
+              <a className="block w-full px-5 py-3 text-blue-600 bg-white border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors mt-3">
+                Créer un compte
+              </a>
+            </Link>
           </div>
         </div>
       </main>
