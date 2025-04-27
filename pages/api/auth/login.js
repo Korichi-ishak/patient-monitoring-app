@@ -1,7 +1,6 @@
 import dbConnect from '../../../lib/mongodb';
 import User from '../../../lib/models/User';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -21,14 +20,18 @@ export default async function handler(req, res) {
     }
 
     // Vérifier le mot de passe
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
     }
 
+    // Mettre à jour la date de dernière connexion
+    user.lastLogin = new Date();
+    await user.save();
+
     // Créer le token JWT
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET || 'secret_temporaire',
       { expiresIn: '8h' }
     );
@@ -42,7 +45,8 @@ export default async function handler(req, res) {
         prenom: user.prenom,
         email: user.email,
         specialite: user.specialite,
-        service: user.service
+        service: user.service,
+        role: user.role
       }
     });
   } catch (error) {
