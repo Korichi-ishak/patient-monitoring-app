@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { FaThermometerHalf, FaHeartbeat, FaLungs } from 'react-icons/fa';
 
 const RecentMeasurements = () => {
   const [measurements, setMeasurements] = useState([]);
@@ -72,6 +73,21 @@ const RecentMeasurements = () => {
     return translations[type] || type;
   };
 
+  // Icône pour le type de mesure
+  const getMeasurementIcon = (type) => {
+    switch (type) {
+      case 'temperature':
+        return <FaThermometerHalf className="w-4 h-4 text-blue-500" />;
+      case 'frequenceCardiaque':
+        return <FaHeartbeat className="w-4 h-4 text-red-500" />;
+      case 'saturationOxygene':
+      case 'respiratoire':
+        return <FaLungs className="w-4 h-4 text-green-500" />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden">
       <div className="px-6 py-4 border-b flex justify-between items-center">
@@ -112,7 +128,10 @@ const RecentMeasurements = () => {
                     {formatTime(measurement.timestamp)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {translateMeasurementType(measurement.type)}
+                    <div className="flex items-center">
+                      {getMeasurementIcon(measurement.type)}
+                      <span className="ml-2">{translateMeasurementType(measurement.type)}</span>
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {measurement.valeur} {measurement.unite || ''}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { FaBars, FaSignOutAlt } from 'react-icons/fa';
 
 const Header = ({ user, onMenuButtonClick }) => {
   const router = useRouter();
@@ -31,9 +32,7 @@ const Header = ({ user, onMenuButtonClick }) => {
             className="md:hidden mr-2 text-gray-600"
             onClick={onMenuButtonClick}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+            <FaBars className="w-6 h-6" />
           </button>
           <h2 className="text-xl font-medium">
             {getPageTitle()}
@@ -56,9 +55,7 @@ const Header = ({ user, onMenuButtonClick }) => {
                   className="p-1 rounded-full text-gray-500 hover:bg-gray-100 focus:outline-none"
                   title="Déconnexion"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
+                  <FaSignOutAlt className="w-5 h-5" />
                 </button>
               </div>
             </>

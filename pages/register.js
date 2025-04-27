@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { FaUser, FaEnvelope, FaLock, FaMedkit, FaHospital, FaIdCard } from 'react-icons/fa';
 
 export default function Register() {
   const router = useRouter();
@@ -28,30 +29,19 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    
-    // Validation basique
+
     if (formData.password !== formData.confirmPassword) {
       setError('Les mots de passe ne correspondent pas');
       return;
     }
-    
+
     setLoading(true);
 
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          nom: formData.nom,
-          prenom: formData.prenom,
-          email: formData.email,
-          password: formData.password,
-          specialite: formData.specialite,
-          service: formData.service,
-          numeroOrdre: formData.numeroOrdre
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
       });
 
       const data = await response.json();
@@ -60,8 +50,7 @@ export default function Register() {
         throw new Error(data.message || 'Erreur lors de l\'inscription');
       }
 
-      // Rediriger vers la page de connexion
-      router.push('/login?message=Compte créé avec succès. Veuillez vous connecter.');
+      router.push('/login?message=Compte cr\u00e9\u00e9 avec succ\u00e8s. Veuillez vous connecter.');
     } catch (error) {
       setError(error.message);
     } finally {
@@ -70,161 +59,141 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="relative bg-gray-50 min-h-screen flex items-center justify-center px-4">
       <Head>
         <title>Inscription - MediMonitor</title>
       </Head>
 
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">MediMonitor</h1>
-          <p className="text-gray-600 mt-2">Créez votre compte médecin</p>
-        </div>
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-100 via-blue-50 to-indigo-100 opacity-30"></div>
+
+      <div className="max-w-2xl w-full bg-white p-10 rounded-3xl shadow-2xl z-10">
+        <h2 className="text-4xl font-extrabold text-center text-blue-600">Créer votre compte</h2>
+        <p className="mt-4 text-center text-sm text-gray-600">
+          Déjà inscrit ?{' '}
+          <Link href="/login" className="text-blue-500 font-semibold hover:underline">
+            Connectez-vous ici
+          </Link>
+        </p>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-6">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <label htmlFor="nom" className="block text-gray-700 font-medium mb-2">
-                Nom
-              </label>
+        <form onSubmit={handleSubmit} className="space-y-6 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="relative">
+              <FaUser className="absolute left-3 top-3 text-gray-400" />
               <input
-                id="nom"
-                type="text"
                 name="nom"
+                type="text"
+                placeholder="Nom"
+                required
                 value={formData.nom}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
+                className="pl-10 py-2 w-full border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
               />
             </div>
-            <div>
-              <label htmlFor="prenom" className="block text-gray-700 font-medium mb-2">
-                Prénom
-              </label>
+            <div className="relative">
+              <FaUser className="absolute left-3 top-3 text-gray-400" />
               <input
-                id="prenom"
-                type="text"
                 name="prenom"
+                type="text"
+                placeholder="Prénom"
+                required
                 value={formData.prenom}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                required
+                className="pl-10 py-2 w-full border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
               />
             </div>
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
-              Email
-            </label>
+          <div className="relative">
+            <FaEnvelope className="absolute left-3 top-3 text-gray-400" />
             <input
-              id="email"
-              type="email"
               name="email"
+              type="email"
+              placeholder="Adresse email"
+              required
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
+              className="pl-10 py-2 w-full border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
             />
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="specialite" className="block text-gray-700 font-medium mb-2">
-              Spécialité
-            </label>
-            <input
-              id="specialite"
-              type="text"
-              name="specialite"
-              value={formData.specialite}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="relative">
+              <FaMedkit className="absolute left-3 top-3 text-gray-400" />
+              <input
+                name="specialite"
+                type="text"
+                placeholder="Spécialité"
+                value={formData.specialite}
+                onChange={handleChange}
+                className="pl-10 py-2 w-full border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+              />
+            </div>
+            <div className="relative">
+              <FaHospital className="absolute left-3 top-3 text-gray-400" />
+              <input
+                name="service"
+                type="text"
+                placeholder="Service"
+                value={formData.service}
+                onChange={handleChange}
+                className="pl-10 py-2 w-full border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+              />
+            </div>
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="service" className="block text-gray-700 font-medium mb-2">
-              Service
-            </label>
+          <div className="relative">
+            <FaIdCard className="absolute left-3 top-3 text-gray-400" />
             <input
-              id="service"
-              type="text"
-              name="service"
-              value={formData.service}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="numeroOrdre" className="block text-gray-700 font-medium mb-2">
-              Numéro d'ordre (optionnel)
-            </label>
-            <input
-              id="numeroOrdre"
-              type="text"
               name="numeroOrdre"
+              type="text"
+              placeholder="Numéro d'ordre (optionnel)"
               value={formData.numeroOrdre}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="pl-10 py-2 w-full border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
             />
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
-              Mot de passe
-            </label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-
-          <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-2">
-              Confirmer le mot de passe
-            </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="relative">
+              <FaLock className="absolute left-3 top-3 text-gray-400" />
+              <input
+                name="password"
+                type="password"
+                placeholder="Mot de passe"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                className="pl-10 py-2 w-full border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+              />
+            </div>
+            <div className="relative">
+              <FaLock className="absolute left-3 top-3 text-gray-400" />
+              <input
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirmer mot de passe"
+                required
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="pl-10 py-2 w-full border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500"
+              />
+            </div>
           </div>
 
           <button
             type="submit"
-            className={`w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ${
-              loading ? 'opacity-70 cursor-not-allowed' : ''
-            }`}
+            className={`w-full py-3 rounded-lg text-white font-semibold ${loading ? 'bg-blue-300' : 'bg-blue-600 hover:bg-blue-700'} transition duration-300`}
             disabled={loading}
           >
             {loading ? 'Inscription en cours...' : 'S\'inscrire'}
           </button>
         </form>
-
-        <div className="mt-6 text-center">
-          <p className="text-gray-600">
-            Vous avez déjà un compte?{' '}
-            <Link href="/login" className="text-blue-600 hover:underline">
-              Se connecter
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );

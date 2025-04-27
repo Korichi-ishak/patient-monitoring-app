@@ -16,17 +16,24 @@ const Layout = ({ children, title = 'Monitoring Patients' }) => {
     
     if (!storedUser || !token) {
       // Ne pas rediriger si on est déjà sur la page d'accueil ou de connexion
-      if (router.pathname !== '/' && router.pathname !== '/login') {
+      if (router.pathname !== '/' && router.pathname !== '/login' && router.pathname !== '/register') {
         router.push('/login');
       }
       return;
     }
     
-    setUser(JSON.parse(storedUser));
+    try {
+      setUser(JSON.parse(storedUser));
+    } catch (error) {
+      console.error('Erreur lors du parsing des données utilisateur:', error);
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      router.push('/login');
+    }
   }, [router]);
 
   // Ne pas afficher la mise en page pour les pages publiques
-  if (router.pathname === '/' || router.pathname === '/login') {
+  if (router.pathname === '/' || router.pathname === '/login' || router.pathname === '/register') {
     return children;
   }
 
@@ -34,26 +41,22 @@ const Layout = ({ children, title = 'Monitoring Patients' }) => {
     <div className="min-h-screen bg-gray-100">
       <Head>
         <title>{title}</title>
-        <meta name="description" content="Application de monitoring des patients" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div className="flex h-screen overflow-hidden">
+        {/* Sidebar mobile - backdrop */}
+        <div 
+          className={`fixed inset-0 z-40 bg-gray-600 bg-opacity-75 transition-opacity md:hidden ${
+            sidebarOpen ? 'opacity-100 ease-out duration-300' : 'opacity-0 ease-in duration-200 pointer-events-none'
+          }`}
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+        
         {/* Sidebar mobile */}
-        <div className={`md:hidden fixed inset-0 z-40 ${sidebarOpen ? 'block' : 'hidden'}`}>
-          <div className="absolute inset-0 bg-gray-600 opacity-75" onClick={() => setSidebarOpen(false)}></div>
-          <div className="relative flex-1 flex flex-col max-w-xs w-full bg-blue-800 text-white">
-            <div className="absolute top-0 right-0 -mr-12 pt-2">
-              <button 
-                className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                onClick={() => setSidebarOpen(false)}
-              >
-                <span className="sr-only">Fermer le menu</span>
-                <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
+        <div className={`fixed inset-y-0 left-0 z-40 w-64 transition transform md:hidden ${
+          sidebarOpen ? 'translate-x-0 ease-out duration-300' : '-translate-x-full ease-in duration-200'
+        }`}>
+          <div className="h-full flex flex-col bg-blue-800 text-white">
             <Sidebar />
           </div>
         </div>

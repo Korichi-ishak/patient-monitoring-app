@@ -1,36 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Line } from 'recharts';
-import dynamic from 'next/dynamic';
-
-// Import dynamique de recharts pour éviter les erreurs côté serveur
-const LineChart = dynamic(
-  () => import('recharts').then(mod => mod.LineChart),
-  { ssr: false }
-);
-const XAxis = dynamic(
-  () => import('recharts').then(mod => mod.XAxis),
-  { ssr: false }
-);
-const YAxis = dynamic(
-  () => import('recharts').then(mod => mod.YAxis),
-  { ssr: false }
-);
-const CartesianGrid = dynamic(
-  () => import('recharts').then(mod => mod.CartesianGrid),
-  { ssr: false }
-);
-const Tooltip = dynamic(
-  () => import('recharts').then(mod => mod.Tooltip),
-  { ssr: false }
-);
-const Legend = dynamic(
-  () => import('recharts').then(mod => mod.Legend),
-  { ssr: false }
-);
-const ResponsiveContainer = dynamic(
-  () => import('recharts').then(mod => mod.ResponsiveContainer),
-  { ssr: false }
-);
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { FaThermometerHalf, FaHeartbeat, FaLungs, FaTachometerAlt } from 'react-icons/fa';
 
 const PatientVitals = ({ patientId }) => {
   const [vitalsData, setVitalsData] = useState({
@@ -99,6 +69,22 @@ const PatientVitals = ({ patientId }) => {
     return translations[type] || type;
   };
 
+  // Obtenir l'icône appropriée
+  const getVitalIcon = (type) => {
+    switch (type) {
+      case 'temperature':
+        return <FaThermometerHalf className="w-5 h-5" />;
+      case 'frequenceCardiaque':
+        return <FaHeartbeat className="w-5 h-5" />;
+      case 'saturationOxygene':
+        return <FaLungs className="w-5 h-5" />;
+      case 'tensionArterielle':
+        return <FaTachometerAlt className="w-5 h-5" />;
+      default:
+        return null;
+    }
+  };
+
   // Obtenir l'unité appropriée
   const getUnit = (type) => {
     const units = {
@@ -145,12 +131,13 @@ const PatientVitals = ({ patientId }) => {
             <button
               key={type}
               onClick={() => setActiveChart(type)}
-              className={`px-3 py-2 rounded-lg text-sm font-medium ${
+              className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium ${
                 activeChart === type 
                   ? 'bg-blue-100 text-blue-800' 
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
+              <span className="mr-2">{getVitalIcon(type)}</span>
               {translateVitalType(type)}
             </button>
           ))}
@@ -202,7 +189,6 @@ const PatientVitals = ({ patientId }) => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valeur</th>
                 <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
               </tr>
@@ -211,7 +197,6 @@ const PatientVitals = ({ patientId }) => {
               {vitalsData[activeChart].slice(0, 5).map((item, index) => (
                 <tr key={index} className={item.anomalie ? 'bg-red-50' : ''}>
                   <td className="px-4 py-2 whitespace-nowrap text-sm">{item.date} {item.time}</td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm">{translateVitalType(activeChart)}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm">{item.value} {item.unit}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm">
                     {item.anomalie ? (

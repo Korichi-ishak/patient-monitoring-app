@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { FaCircle, FaExclamationTriangle } from 'react-icons/fa';
 
 const RecentAlerts = () => {
   const [alerts, setAlerts] = useState([]);
@@ -75,9 +76,12 @@ const RecentAlerts = () => {
             {alerts.map(alert => (
               <li key={alert._id} className="p-4 hover:bg-gray-50">
                 <div className="flex items-start">
-                  <div className={`flex-shrink-0 rounded-full w-2 h-2 mt-2 ${
-                    severityClasses[alert.severite]
-                  }`}></div>
+                  <div className="flex-shrink-0 mt-1">
+                    <FaCircle className={`w-2 h-2 ${
+                      alert.severite === "haute" ? "text-red-500" :
+                      alert.severite === "moyenne" ? "text-orange-500" : "text-yellow-500"
+                    }`} />
+                  </div>
                   <div className="ml-3 flex-1">
                     <div className="flex justify-between">
                       <p className="text-sm font-medium">

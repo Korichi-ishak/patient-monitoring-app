@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaCheck, FaEye, FaExclamationTriangle } from 'react-icons/fa';
 
 const PatientAlerts = ({ patientId }) => {
   const [alerts, setAlerts] = useState([]);
@@ -116,7 +117,13 @@ const PatientAlerts = ({ patientId }) => {
                     {formatDate(alert.timestamp)}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm">
-                    {alert.type}
+                    <div className="flex items-center">
+                      <FaExclamationTriangle className={`w-4 h-4 mr-2 ${
+                        alert.severite === "haute" || alert.severite === "critique" ? "text-red-500" :
+                        alert.severite === "moyenne" ? "text-orange-500" : "text-yellow-500"
+                      }`} />
+                      {alert.type}
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-sm">
                     {alert.description}
@@ -138,16 +145,18 @@ const PatientAlerts = ({ patientId }) => {
                     {alert.status === 'nouvelle' && (
                       <button
                         onClick={() => updateAlertStatus(alert._id, 'vue')}
-                        className="text-blue-600 hover:text-blue-800 mr-2"
+                        className="text-blue-600 hover:text-blue-800 mr-2 flex items-center"
                       >
+                        <FaEye className="w-4 h-4 mr-1" />
                         Marquer vue
                       </button>
                     )}
                     {(alert.status === 'nouvelle' || alert.status === 'vue') && (
                       <button
                         onClick={() => updateAlertStatus(alert._id, 'resolue')}
-                        className="text-green-600 hover:text-green-800"
+                        className="text-green-600 hover:text-green-800 flex items-center mt-1"
                       >
+                        <FaCheck className="w-4 h-4 mr-1" />
                         Résoudre
                       </button>
                     )}
