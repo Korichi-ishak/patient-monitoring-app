@@ -54,9 +54,7 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <div className="hidden md:block">
-              <img src="/dashboard-preview.png" alt="Dashboard Preview" className="rounded-lg shadow-xl" />
-            </div>
+            
           </div>
         </div>
       </section>
